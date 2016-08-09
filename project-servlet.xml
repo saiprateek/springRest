@@ -1,0 +1,33 @@
+<!-- Configure to plugin JSON as request and response in method handler -->
+	  
+		 <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+			<constructor-arg>
+				<bean
+					class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+					<constructor-arg ref="httpClient" />
+					<property name="readTimeout" value="100" />
+					<property name="connectTimeout" value="100" />
+				</bean>
+			</constructor-arg>
+			<property name="messageConverters">
+			<list>
+				<ref bean="jsonConverter" />
+			</list>
+		</property>
+		</bean> 
+		
+
+	<bean id="jsonConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/json" />
+	</bean>
+    <bean id="httpClient" class="org.apache.http.impl.client.DefaultHttpClient"/> 
+      
+    <!-- Configure to plugin JSON as request and response in method handler -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonConverter"/>
+			</list>
+		</property>
+	</bean>  
